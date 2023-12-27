@@ -1,0 +1,122 @@
+[
+    { 
+        "name": "311",
+        "mbid": "bf600e2b-dc2d-4839-a1be-6ebef4087cd0",
+        "rating": 3
+    },
+    { 
+        "name": "Aether Realm",
+        "mbid": "744d43a5-3cbf-4b43-acfc-045cc0062af2",
+        "rating": 7
+    },
+    { 
+        "name": "Baroness",
+        "mbid": "eeb41a1e-4326-4d04-8c47-0f564ceecd68",
+        "rating": 5
+    },
+    { 
+        "name": "Belzebubs",
+        "mbid": "35c29016-2629-45f1-8500-05e914951713",
+        "rating": 8
+    },
+    { 
+        "name": "CKY",
+        "mbid": "4ed35152-5207-4101-8904-6cb5d159b545",
+        "rating": 6
+    },
+    { 
+        "name": "Dreadnoughts, The",
+        "mbid": "748ec8db-4b7c-4f39-bc4b-aa5eb7ae9be7",
+        "rating": 7
+    },
+    { 
+        "name": "Girugamesh",
+        "mbid": "658f8795-2e39-40aa-9b5a-5050573f5cb3",
+        "rating": 4
+    },
+    { 
+        "name": "Gojira",
+        "mbid": "1c5efd53-d6b6-4d63-9d22-a15025cf5f07",
+        "rating": 10
+    },
+    { 
+        "name": "Hath",
+        "mbid": "c0705d72-db56-45c6-9827-9be46e3ce30f",
+        "rating": 7
+    },
+    { 
+        "name": "High on Fire",
+        "mbid": "720249d5-62c5-4679-8ead-dcda3329d6e7",
+        "rating": 8
+    },
+    { 
+        "name": "Imperial Circus Dead Decadence",
+        "mbid": "8220be11-9ee1-4744-acf4-dc89c3722a55",
+        "rating": 7
+    },
+    { 
+        "name": "Insomnium",
+        "mbid": "c1f8e226-75ea-4fe6-83ce-59c122bcbca4",
+        "rating": 8
+    },
+    { 
+        "name": "Karnivool",
+        "mbid": "9ee2638f-c3a3-4532-bc08-54d397241c2a",
+        "rating": 6
+    },
+    { 
+        "name": "Keygen Church",
+        "mbid": "3d5635ca-6703-4f0b-b1ca-d4838e696a62",
+        "rating": 8
+    },
+    { 
+        "name": "Mastodon",
+        "mbid": "bc5e2ad6-0a4a-4d90-b911-e9a7e6861727",
+        "rating": 10
+    },
+    { 
+        "name": "Nite",
+        "mbid": "f3e6c393-01e7-483f-8532-9388f27ee724",
+        "rating": 7
+    },
+    { 
+        "name": "Periphery",
+        "mbid": "a0cef17a-4574-44f4-9f97-fd068615dac6",
+        "rating": 8
+    },
+    { 
+        "name": "Port Noir",
+        "mbid": "46acfa40-8df2-4637-ab07-fc9f3a24e4f6",
+        "rating": 5
+    },
+    { 
+        "name": "Savant",
+        "mbid": "541a58c4-29b3-48b1-b060-3d37b037a226",
+        "rating": 6
+    },
+    { 
+        "name": "Slipknot",
+        "mbid": "a466c2a2-6517-42fb-a160-1087c3bafd9f",
+        "rating": 7
+    },
+    { 
+        "name": "Theatre of Tragedy",
+        "mbid": "1b6ce503-df5f-45d5-86cf-54740c30042f",
+        "rating": 8
+    },
+    { 
+        "name": "Thrice",
+        "mbid": "244afcb7-fa9a-49b1-9aa6-0149512d1c52",
+        "rating": 8
+    },
+    { 
+        "name": "Tribulation",
+        "mbid": "a986ffff-d7ad-48e3-ba77-d7763b935649",
+        "rating": 10
+    },
+    { 
+        "name": "Within Temptation",
+        "mbid": "eace2373-31c8-4aba-9a5c-7bce22dd140a",
+        "rating": 6
+    }
+]
