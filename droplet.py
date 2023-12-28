@@ -1,6 +1,19 @@
 import json
 import requests
 import time
+import tkinter as tk
+import urllib.request
+from PIL import ImageTk, Image
+import io
+
+class albumImage:
+    def __init__(self, url):
+        with urllib.request.urlopen(url) as src:
+            raw_data = src.read()
+        image = Image.open(io.BytesIO(raw_data))
+        self.image = ImageTk.PhotoImage(image)
+    def get(self):
+        return self.image
 
 # get_followed_bands( )
 # returns a json object list of artists/bands predetermined to be followed
@@ -39,7 +52,7 @@ def get_album_url(album_id):
 
     if response.status_code == 200:
         album_info = response.json()
-        return album_info["images"][0]["thumbnails"][250]
+        return album_info["images"][0]["thumbnails"]["250"]
     
     print("Error: failed response from musicbrains.org API")
     print(f"Response error code: {response.status_code}")
@@ -79,17 +92,32 @@ def get_latest_album(released_albums):
 def main():
     bands = get_followed_bands()
 
+    root = tk.Tk()
+    root.title("Droplet")
+    root.geometry("1500x1000")
+    grid_entry = 0
+
     for band in bands:
         try:
             artist = get_artist_blob(band["name"])
             albums = get_albums(artist)
             latest = get_latest_album(albums)
-            print(f"{band['name']}: {latest['title']} ({latest['date']})")
-            # album_image_url = get_album_url(latest["id"])
+            #print(f"{band['name']}: {latest['title']} ({latest['date']})")
+            album_image_url = get_album_url(latest["id"])
+            #album_image_url = "http://coverartarchive.org/release/76df3287-6cda-33eb-8e9a-044b5e15ffdd/829521842-250.jpg"
+            album_image = albumImage(album_image_url).get()
+            imagelab = tk.Label(root, image=album_image)
+            imagelab.grid(row = grid_entry // 6, column = grid_entry % 6)
+            grid_entry += 1
+
             # Rate limit?
-            time.sleep(0.5)
-        except:
-            print(f"Error for {band['name']}")
+            time.sleep(0.3)
+        except Exception as inst:
+            print(f"Error for {band} because of {inst}")
+        if grid_entry > 3:
+            break
+
+    root.mainloop()
 
 if __name__ == "__main__":
     main()
