@@ -90,12 +90,16 @@ def get_latest_album(released_albums):
     return released_albums[0]
 
 def main():
+    print("Getting latest albums...")
     bands = get_followed_bands()
 
     root = tk.Tk()
     root.title("Droplet")
     root.geometry("1500x1000")
     grid_entry = 0
+    grid_images = []
+
+    print("Downloading album covers...")
 
     for band in bands:
         try:
@@ -105,8 +109,8 @@ def main():
             #print(f"{band['name']}: {latest['title']} ({latest['date']})")
             album_image_url = get_album_url(latest["id"])
             #album_image_url = "http://coverartarchive.org/release/76df3287-6cda-33eb-8e9a-044b5e15ffdd/829521842-250.jpg"
-            album_image = albumImage(album_image_url).get()
-            imagelab = tk.Label(root, image=album_image)
+            grid_images.append(albumImage(album_image_url).get())
+            imagelab = tk.Label(root, image=grid_images[grid_entry])
             imagelab.grid(row = grid_entry // 6, column = grid_entry % 6)
             grid_entry += 1
 
@@ -114,8 +118,6 @@ def main():
             time.sleep(0.3)
         except Exception as inst:
             print(f"Error for {band} because of {inst}")
-        if grid_entry > 3:
-            break
 
     root.mainloop()
 
