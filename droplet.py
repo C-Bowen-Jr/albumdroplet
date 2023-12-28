@@ -30,8 +30,24 @@ def get_artist_blob(artist_name):
     print(f"Response error code: {response.status_code}")
     return
 
+# get_album_url ( album_id as string )
+# returns a string of the url to the album image
+# This gets the url from musicbrainz and appends the 250px size 
+def get_album_url(album_id):
+    query = f"https://coverartarchive.org/release-group/{album_id}"
+    response = requests.get(query)
+
+    if response.status_code == 200:
+        album_info = response.json()
+        return album_info["images"][0]["thumbnails"][250]
+    
+    print("Error: failed response from musicbrains.org API")
+    print(f"Response error code: {response.status_code}")
+    return
+
 # get_albums ( artist_blob as json )
-# returns an unsorted list of dicts containing the album release date and name
+# returns an unsorted list of dicts containing the album release date, name, and 
+# album id
 # This strips away things like singles, only returning actual albums, it also
 # corrects database errors where musicbrainz only has the year on a release date
 def get_albums(artist_blob):
@@ -39,7 +55,7 @@ def get_albums(artist_blob):
 
     for album in artist_blob["release-groups"]:
         if album["primary-type"] == "Album":
-            releases.append({"date": complete_date(album["first-release-date"]), "title": album["title"]})
+            releases.append({"date": complete_date(album["first-release-date"]), "title": album["title"], "id": album["id"]})
 
     return releases
 
@@ -53,7 +69,7 @@ def complete_date(date):
     return date
 
 # get_latest_album ( released_albums as list )
-# returns a dict containing the album release date and name
+# returns a dict containing the album release date, name, and album id
 # This sorts a list of released albums and returns the most recent
 def get_latest_album(released_albums):
     released_albums.sort(key=lambda x: x["date"], reverse=True)
@@ -69,6 +85,7 @@ def main():
             albums = get_albums(artist)
             latest = get_latest_album(albums)
             print(f"{band['name']}: {latest['title']} ({latest['date']})")
+            # album_image_url = get_album_url(latest["id"])
             # Rate limit?
             time.sleep(0.5)
         except:
@@ -76,3 +93,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+#https://musicbrainz.org/ws/2/release/test/front
+#https://coverartarchive.org/release-group/
