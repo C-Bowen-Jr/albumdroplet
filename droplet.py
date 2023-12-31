@@ -6,6 +6,8 @@ import urllib.request
 from PIL import ImageTk, Image
 import io
 
+# Version 1.1.2
+
 class albumImage:
     def __init__(self, url):
         with urllib.request.urlopen(url) as src:
