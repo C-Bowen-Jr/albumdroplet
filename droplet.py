@@ -5,15 +5,36 @@ import tkinter as tk
 import urllib.request
 from PIL import ImageTk, Image
 import io
+import os
 
-# Version 1.1.2
+# Version 1.1.3
+
+class cachedImage:
+    def __init__(self, album_id):
+        filename = id_to_filename(album_id)
+        image = Image.open(filename)
+        self.image = ImageTk.PhotoImage(image)
+    def get(self):
+        return self.image
 
 class albumImage:
-    def __init__(self, url):
+    def __init__(self, album_id):
+        url = get_album_url(album_id)
         with urllib.request.urlopen(url) as src:
             raw_data = src.read()
         image = Image.open(io.BytesIO(raw_data))
+
         self.image = ImageTk.PhotoImage(image)
+
+        # Save a cached version for next time
+        filename = id_to_filename(album_id)
+        cache = open(filename, "wb")
+        cache.write(raw_data)
+        cache.close()
+
+        # Rate limit buffer
+        time.sleep(0.1)
+        
     def get(self):
         return self.image
 
@@ -91,9 +112,20 @@ def get_latest_album(released_albums):
 
     return released_albums[0]
 
+# is_cached ( album_id as string)
+# returns true if album art of that id and exists as a file in cache folder
+# or false if not
+def is_cached(album_id):
+    os.path.isfile(id_to_filename(album_id))
+
+# id_to_filename ( album_id as string)
+# returns a string of the album id with an image extention
+def id_to_filename(album_id):
+    return f"cache/{album_id}.jpg"
+
 def main():
-    print("Getting latest albums...")
     bands = get_followed_bands()
+    print(f"Checking latest releases for your {len(bands)} bands.")
 
     root = tk.Tk()
     root.title("Droplet")
@@ -101,23 +133,21 @@ def main():
     grid_entry = 0
     grid_images = []
 
-    print("Downloading album covers...")
-
     for band in bands:
         try:
             artist = get_artist_blob(band["name"])
             albums = get_albums(artist)
-            latest = get_latest_album(albums)
-            #print(f"{band['name']}: {latest['title']} ({latest['date']})")
-            album_image_url = get_album_url(latest["id"])
-            #album_image_url = "http://coverartarchive.org/release/76df3287-6cda-33eb-8e9a-044b5e15ffdd/829521842-250.jpg"
-            grid_images.append(albumImage(album_image_url).get())
+            latest_id = get_latest_album(albums)["id"]
+            
+            if is_cached(latest_id):
+                grid_images.append(cachedImage(latest_id).get())
+            else:
+                grid_images.append(albumImage(latest_id).get())
+
             imagelab = tk.Label(root, image=grid_images[grid_entry])
             imagelab.grid(row = grid_entry // 6, column = grid_entry % 6)
             grid_entry += 1
 
-            # Rate limit?
-            time.sleep(0.3)
         except Exception as inst:
             print(f"Error for {band} because of {inst}")
 
@@ -125,6 +155,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+    print("")
 
 #https://musicbrainz.org/ws/2/release/test/front
 #https://coverartarchive.org/release-group/
