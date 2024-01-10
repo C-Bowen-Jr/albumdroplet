@@ -7,7 +7,7 @@ from PIL import ImageTk, Image
 import io
 import os
 
-# Version 1.1.3
+# Version 1.2.3
 
 class cachedImage:
     def __init__(self, album_id):
@@ -32,8 +32,8 @@ class albumImage:
         cache.write(raw_data)
         cache.close()
 
-        # Rate limit buffer
-        time.sleep(0.1)
+        # Rate limit buffer, increase if you get 503 responses
+        time.sleep(0.2)
         
     def get(self):
         return self.image
@@ -62,6 +62,11 @@ def get_artist_blob(artist_name):
         artist_object = response.json()
         return artist_object
 
+    elif respnse.status_code == 503:
+        print("Error: Failed to get general artist data.")
+        print("Response 503: Server is down or you are being rate limited")
+        return
+
     print("Error: failed response from musicbrains.org API")
     print(f"Response error code: {response.status_code}")
     return
@@ -76,6 +81,11 @@ def get_album_url(album_id):
     if response.status_code == 200:
         album_info = response.json()
         return album_info["images"][0]["thumbnails"]["250"]
+
+    elif respnse.status_code == 503:
+        print("Error: Failed to get album art.")
+        print("Response 503: Server is down or you are being rate limited")
+        return
     
     print("Error: failed response from musicbrains.org API")
     print(f"Response error code: {response.status_code}")
@@ -116,7 +126,7 @@ def get_latest_album(released_albums):
 # returns true if album art of that id and exists as a file in cache folder
 # or false if not
 def is_cached(album_id):
-    os.path.isfile(id_to_filename(album_id))
+    return os.path.isfile(id_to_filename(album_id))
 
 # id_to_filename ( album_id as string)
 # returns a string of the album id with an image extention
@@ -148,8 +158,8 @@ def main():
             imagelab.grid(row = grid_entry // 6, column = grid_entry % 6)
             grid_entry += 1
 
-        except Exception as inst:
-            print(f"Error for {band} because of {inst}")
+        except Exception:
+            print(f"^^^ Error occured for {band['name']}")
 
     root.mainloop()
 
