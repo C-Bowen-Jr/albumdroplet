@@ -2,6 +2,11 @@
 
 Droplet is a simple visual tool to keep tabs on new album releases. It's a superior alternative to RSS feeds, and works well as suplimentary notifications to bands you might not follow on the pulse.
 
+## Prerequisits
+
+```pip install requests```
+```pip install pillow```
+
 ## Usage
 
 The included bands.json is my personal choices. You'll have to fill in the bands by name and by researching their mbid (musicbrainz ID). To do this, search using ```https://musicbrainz.org/ws/2/artist/?query=<BandNameHere>&fmt=json``` with the band name relpacing "<BandNameHere>". There should be no <> brackets, and it will except partials like "within" for "within temptation". Also spaces can be written as either actual spaces or %20.
