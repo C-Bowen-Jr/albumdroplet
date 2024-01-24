@@ -149,7 +149,7 @@ def main():
             albums = get_albums(artist)
             latest_id = get_latest_album(albums)["id"]
             
-            is_new = "NEW: "
+            is_new = "NEW! "
             if is_cached(latest_id):
                 grid_images.append(cachedImage(latest_id).get())
                 is_new = ""
@@ -159,6 +159,11 @@ def main():
             imagelab = tk.Label(root, text=f"{is_new}{band['name']}", fg = "white", bg ="black", wraplength = 220, font = ('Arial', 24, 'bold'), image=grid_images[grid_entry], compound='center')
             imagelab.grid(row = grid_entry // 6, column = grid_entry % 6)
             grid_entry += 1
+
+            progress = "\U0001D15F" * grid_entry  + "\U0001D13D" * (len(bands) - grid_entry)
+            print(f"[{progress}] {is_new}", end='\r')
+            if grid_entry == len(bands):
+                print("Done!\n")
         
         except TypeError:
             pass
